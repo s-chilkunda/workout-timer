@@ -23,64 +23,49 @@ A modern, feature-rich workout timer application designed to help you track and 
   - Touch-friendly controls
   - Adaptive layout for different screen sizes
 
-## Technologies Used
+## GitHub Pages Deployment
 
-- React with TypeScript
-- Tailwind CSS for styling
-- ShadcN UI components
-- Web Audio API for sound effects
-- YouTube Player API for music integration
-- PostgreSQL for data persistence
+This app is a static website that can be hosted on GitHub Pages for free.
 
-## macOS Setup Instructions
+### Quick Deploy
+
+1. Push this repository to GitHub
+2. Go to your repo's **Settings > Pages**
+3. Under "Source", select **Deploy from a branch**
+4. Choose **main** branch and **/docs** folder
+5. Click Save
+
+Your site will be live at `https://[your-username].github.io/[repo-name]/`
+
+### Rebuilding the Static Site
+
+If you make changes to the app, rebuild the static files:
+
+```bash
+npx vite build --config vite.static.config.ts
+```
+
+This outputs the static site to the `/docs` folder.
+
+## Local Development
 
 ### Prerequisites
 
-1. **Node.js**: Install using Homebrew
-   ```bash
-   brew install node@20
-   ```
+- Node.js 18 or higher
 
-2. **PostgreSQL**: Install and start the service
-   ```bash
-   brew install postgresql@15
-   brew services start postgresql@15
-   ```
+### Installation
 
-### Installation Steps
+```bash
+npm install
+```
 
-1. Clone the repository
-   ```bash
-   git clone <repository-url>
-   cd workout-timer
-   ```
+### Run Development Server
 
-2. Install dependencies
-   ```bash
-   npm install
-   ```
+```bash
+npm run dev
+```
 
-3. Set up the database
-   ```bash
-   # Create a new PostgreSQL database
-   createdb workout_timer
-
-   # Push the database schema
-   npm run db:push
-   ```
-
-4. Create a `.env` file in the project root
-   ```bash
-   # Development environment variables
-   DATABASE_URL="postgresql://localhost:5432/workout_timer"
-   ```
-
-5. Start the development server
-   ```bash
-   npm run dev
-   ```
-
-6. Open your browser to [http://localhost:3000](http://localhost:3000)
+Open your browser to the URL shown in the terminal.
 
 ## Usage Guide
 
@@ -102,33 +87,13 @@ A modern, feature-rich workout timer application designed to help you track and 
    - Mute button for all audio
    - YouTube music player with URL input
 
-## Development Tools
+## Technologies Used
 
-- **Visual Studio Code** (Recommended)
-  - Install the ESLint and Prettier extensions
-  - Enable "Format on Save" for automatic code formatting
-
-## Troubleshooting
-
-### Common Issues on macOS
-
-1. **PostgreSQL Connection Issues**
-   - Ensure PostgreSQL service is running:
-     ```bash
-     brew services list
-     ```
-   - Check database existence:
-     ```bash
-     psql -l
-     ```
-
-2. **Port Conflicts**
-   - If port 3000 is in use, the server will automatically try the next available port
-   - Check terminal output for the correct URL
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
+- React with TypeScript
+- Tailwind CSS for styling
+- ShadcN UI components
+- Web Audio API for sound effects
+- YouTube Player API for music integration
 
 ## License
 
