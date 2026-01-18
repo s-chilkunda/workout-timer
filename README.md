@@ -32,7 +32,7 @@ This app is a static website that can be hosted on GitHub Pages for free.
 1. Push this repository to GitHub
 2. Go to your repo's **Settings > Pages**
 3. Under "Source", select **Deploy from a branch**
-4. Choose **main** branch and **/docs** folder
+4. Choose **main** branch and **/ (root)** folder
 5. Click Save
 
 Your site will be live at `https://[your-username].github.io/[repo-name]/`
@@ -43,9 +43,11 @@ If you make changes to the app, rebuild the static files:
 
 ```bash
 npx vite build --config vite.static.config.ts
+cp static-build/index.html .
+cp -r static-build/assets .
 ```
 
-This outputs the static site to the `/docs` folder.
+This rebuilds and copies the static files to the root.
 
 ## Local Development
 
