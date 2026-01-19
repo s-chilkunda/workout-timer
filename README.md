@@ -21,7 +21,8 @@ A modern, feature-rich workout timer application designed to help you track and 
 - **Mobile-Optimized**:
   - Responsive design that works on all devices
   - Touch-friendly controls
-  - Adaptive layout for different screen sizes
+  - Screen wake lock to prevent phone from sleeping during workouts
+  - Audio keep-alive for uninterrupted notifications
 
 ## GitHub Pages Deployment
 
@@ -63,8 +64,10 @@ npm install
 
 ### Run Development Server
 
+For local development, run:
+
 ```bash
-npm run dev
+npx vite --config vite.static.config.ts
 ```
 
 Open your browser to the URL shown in the terminal.
@@ -91,10 +94,12 @@ Open your browser to the URL shown in the terminal.
 
 ## Technologies Used
 
-- React with TypeScript
+- React 18 with TypeScript
 - Tailwind CSS for styling
 - ShadcN UI components
+- Wouter for hash-based routing
 - Web Audio API for sound effects
+- Screen Wake Lock API for mobile
 - YouTube Player API for music integration
 
 ## License
