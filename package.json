@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --config vite.static.config.ts",
-    "check": "tsc",
+    "check": "tsc"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
