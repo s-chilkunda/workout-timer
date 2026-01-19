@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause, Volume2, VolumeX, Plus, Trash2, ArrowLeft, RotateCcw, Trophy } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { audioManager } from "@/lib/audio";
+import { wakeLockManager } from "@/lib/wakeLock";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
@@ -49,6 +50,9 @@ export default function Home() {
   useEffect(() => {
     if (currentPhase === "idle" && elapsedTime > 0) {
       setShowCompletionDialog(true);
+      // Release wake lock when workout completes
+      wakeLockManager.releaseWakeLock();
+      audioManager.stopSilentAudio();
     }
   }, [currentPhase, elapsedTime]);
 
@@ -76,6 +80,13 @@ export default function Home() {
     try {
       await audioManager.initializeAudio();
       console.log('Audio initialized before starting workout');
+      
+      // Request wake lock to prevent screen from locking
+      const wakeLockAcquired = await wakeLockManager.requestWakeLock();
+      if (wakeLockAcquired) {
+        wakeLockManager.reacquireOnVisibilityChange();
+      }
+      
       setMode("workout");
       await start();
     } catch (error) {
@@ -93,7 +104,9 @@ export default function Home() {
   const handleBack = () => {
     pause();
     setMode("setup");
-    // Don't reset the state when going back
+    // Release wake lock when going back to setup
+    wakeLockManager.releaseWakeLock();
+    audioManager.stopSilentAudio();
   };
 
   const handleReset = () => {

@@ -5,11 +5,41 @@ class AudioManager {
   private muted: boolean = false;
   private isInitialized: boolean = false;
   private hasUserInteraction: boolean = false;
+  private silentAudioElement: HTMLAudioElement | null = null;
 
   setYoutubePlayer(player: any) {
     this.youtubePlayer = player;
     if (player) {
       player.setVolume(100);
+    }
+  }
+
+  private createSilentAudio() {
+    if (this.silentAudioElement) return;
+    
+    const audio = document.createElement('audio');
+    audio.loop = true;
+    audio.volume = 0.01;
+    const silentDataUri = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRwmHAAAAAAD/+1DEAAAHAAGf9AAAIgAANIAAAARMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7UMQbg8AAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
+    audio.src = silentDataUri;
+    this.silentAudioElement = audio;
+  }
+
+  async startSilentAudio() {
+    this.createSilentAudio();
+    if (this.silentAudioElement) {
+      try {
+        await this.silentAudioElement.play();
+        console.log('Silent audio started for mobile audio keep-alive');
+      } catch (e) {
+        console.log('Could not start silent audio:', e);
+      }
+    }
+  }
+
+  stopSilentAudio() {
+    if (this.silentAudioElement) {
+      this.silentAudioElement.pause();
     }
   }
 
@@ -54,6 +84,9 @@ class AudioManager {
   async initializeAudio() {
     // Set user interaction flag
     this.hasUserInteraction = true;
+
+    // Start silent audio for mobile keep-alive
+    await this.startSilentAudio();
 
     if (this.isInitialized) {
       await this.resumeAudioContext();
